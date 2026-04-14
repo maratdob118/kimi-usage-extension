@@ -4,19 +4,19 @@ import Gio from 'gi://Gio';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-export default class ClaudeUsagePreferences extends ExtensionPreferences {
+export default class CodexUsagePreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
 
         const page = new Adw.PreferencesPage({
-            title: 'Claude Usage Settings',
+            title: 'Codex Usage Settings',
             icon_name: 'preferences-system-symbolic',
         });
         window.add(page);
 
         const generalGroup = new Adw.PreferencesGroup({
             title: 'General',
-            description: 'Configure the Claude Usage extension',
+            description: 'Configure the Codex Usage extension',
         });
         page.add(generalGroup);
 
@@ -68,6 +68,26 @@ export default class ClaudeUsagePreferences extends ExtensionPreferences {
 
         displayGroup.add(displayModeRow);
 
+        const usageDisplayRow = new Adw.ComboRow({
+            title: 'Usage Values',
+            subtitle: 'Show consumed usage or remaining allowance',
+        });
+
+        const usageDisplayModel = new Gtk.StringList();
+        usageDisplayModel.append('Used');
+        usageDisplayModel.append('Remaining');
+        usageDisplayRow.set_model(usageDisplayModel);
+
+        const currentUsageDisplay = settings.get_string('usage-display');
+        usageDisplayRow.set_selected(currentUsageDisplay === 'remaining' ? 1 : 0);
+
+        usageDisplayRow.connect('notify::selected', () => {
+            const selected = usageDisplayRow.get_selected();
+            settings.set_string('usage-display', selected === 1 ? 'remaining' : 'used');
+        });
+
+        displayGroup.add(usageDisplayRow);
+
         const iconStyleRow = new Adw.ComboRow({
             title: 'Icon Style',
             subtitle: 'Use a color or monochrome icon in the panel',
@@ -90,7 +110,7 @@ export default class ClaudeUsagePreferences extends ExtensionPreferences {
 
         const showIconRow = new Adw.SwitchRow({
             title: 'Show Icon',
-            subtitle: 'Display the Claude icon in the top bar',
+            subtitle: 'Display the Codex icon in the top bar',
         });
         settings.bind(
             'show-icon',

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="claude-code-usage">
-  <schema id="org.gnome.shell.extensions.claude-code-usage" path="/org/gnome/shell/extensions/claude-code-usage/">
+<schemalist gettext-domain="codex-usage">
+  <schema id="org.gnome.shell.extensions.codex-usage" path="/org/gnome/shell/extensions/codex-usage/">
     <key name="refresh-interval" type="i">
       <default>300</default>
       <summary>Refresh interval</summary>
@@ -11,6 +11,11 @@
       <summary>Display mode</summary>
       <description>How to display usage in the panel: 'text' for percentage text, 'bar' for a progress bar, or 'both' for both</description>
     </key>
+    <key name="usage-display" type="s">
+      <default>'used'</default>
+      <summary>Usage value display</summary>
+      <description>Whether to display used or remaining percentages</description>
+    </key>
     <key name="icon-style" type="s">
       <default>'color'</default>
       <summary>Icon style</summary>
@@ -19,7 +24,7 @@
     <key name="show-icon" type="b">
       <default>true</default>
       <summary>Show icon</summary>
-      <description>Whether to show the Claude icon in the top bar</description>
+      <description>Whether to show the Codex icon in the top bar</description>
     </key>
     <key name="proxy-url" type="s">
       <default>''</default>
