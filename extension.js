@@ -344,6 +344,7 @@ class KimiUsageIndicator extends PanelMenu.Button {
                 const auth = JSON.parse(decoder.decode(contents));
                 const tokens = auth.tokens ?? auth;
                 const accessToken = tokens.access_token ?? null;
+                this._refreshToken = tokens.refresh_token ?? null;
                 const accountId = tokens.account_id ?? null;
 
                 if (!accessToken) {
@@ -378,7 +379,16 @@ class KimiUsageIndicator extends PanelMenu.Button {
                     const bytes = session.send_and_read_finish(result);
 
                     if (message.status_code !== 200) {
-                        if (message.status_code === 401) { this._setUnavailableState('—', 'Token expired (Run kimi)'); this._updateLastCheckedLabel(); return; } this._setUnavailableState('Error', `HTTP ${message.status_code}`);
+                        if (message.status_code === 401) {
+                        if (this._refreshToken && !this._isRefreshing) {
+                            this._doRefreshToken();
+                        } else {
+                            this._setUnavailableState('—', 'Token expired (Run kimi)');
+                            this._updateLastCheckedLabel();
+                        }
+                        return;
+                    }
+                    this._setUnavailableState('Error', `HTTP ${message.status_code}`);
                         this._updateLastCheckedLabel();
                         return;
                     }
@@ -401,6 +411,64 @@ class KimiUsageIndicator extends PanelMenu.Button {
         );
     }
 
+
+
+    _doRefreshToken() {
+        this._isRefreshing = true;
+        const url = 'https://auth.kimi.com/api/oauth/token';
+        const message = Soup.Message.new('POST', url);
+        message.request_headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        message.request_headers.append('X-Msh-Platform', 'kimi_cli');
+        
+        const body = `client_id=17e5f671-d194-4dfb-9706-5516cb48c098&grant_type=refresh_token&refresh_token=${this._refreshToken}`;
+        const bytes = GLib.Bytes.new(new TextEncoder('utf-8').encode(body));
+        message.set_request_body_from_bytes('application/x-www-form-urlencoded', bytes);
+
+        this._session.send_and_read_async(
+            message,
+            GLib.PRIORITY_DEFAULT,
+            null,
+            (session, result) => {
+                this._isRefreshing = false;
+                try {
+                    const responseBytes = session.send_and_read_finish(result);
+                    if (message.status_code === 200) {
+                        const decoder = new TextDecoder('utf-8');
+                        const data = JSON.parse(decoder.decode(responseBytes.get_data()));
+                        if (data.access_token && data.refresh_token) {
+                            const credsDir = GLib.build_filenamev([GLib.get_home_dir(), '.kimi', 'credentials']);
+                            const authPath = GLib.build_filenamev([credsDir, 'kimi-code.json']);
+                            const file = Gio.File.new_for_path(authPath);
+                            
+                            const encoder = new TextEncoder('utf-8');
+                            const outBytes = GLib.Bytes.new(encoder.encode(JSON.stringify(data, null, 2)));
+                            file.replace_contents_bytes_async(
+                                outBytes,
+                                null,
+                                false,
+                                Gio.FileCreateFlags.REPLACE_DESTINATION,
+                                null,
+                                (f, res) => {
+                                    try {
+                                        f.replace_contents_finish(res);
+                                        this._readAuth(); // Retry
+                                    } catch (e) {
+                                        console.error('Kimi Usage: Failed to save refreshed token:', e.message);
+                                    }
+                                }
+                            );
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Kimi Usage: Token refresh failed:', e.message);
+                }
+                this._setUnavailableState('—', 'Token expired (Run kimi)');
+                this._updateLastCheckedLabel();
+            }
+        );
+    }
+
     _normalizeApiResponse(data) {
         // Parse Kimi response
         let rateLimit = { used: 0, limit: 100, resetTime: null };
@@ -419,6 +487,11 @@ class KimiUsageIndicator extends PanelMenu.Button {
             weeklyLimit.used = parseInt(data.usage.used || 0, 10);
             weeklyLimit.limit = parseInt(data.usage.limit || 100, 10);
             weeklyLimit.resetTime = data.usage.resetTime;
+        }
+
+        // Feature: if weekly quota is 100% consumed, 5-hour quota should also be 100% consumed
+        if (weeklyLimit.limit > 0 && weeklyLimit.used >= weeklyLimit.limit) {
+            rateLimit.used = rateLimit.limit;
         }
 
         const toPercent = (u, l) => (l > 0 ? (u / l) * 100 : 0);
