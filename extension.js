@@ -378,7 +378,7 @@ class KimiUsageIndicator extends PanelMenu.Button {
                     const bytes = session.send_and_read_finish(result);
 
                     if (message.status_code !== 200) {
-                        this._setUnavailableState('Error', `HTTP ${message.status_code}`);
+                        if (message.status_code === 401) { this._setUnavailableState('—', 'Token expired (Run kimi)'); this._updateLastCheckedLabel(); return; } this._setUnavailableState('Error', `HTTP ${message.status_code}`);
                         this._updateLastCheckedLabel();
                         return;
                     }
