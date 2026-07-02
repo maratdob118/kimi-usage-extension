@@ -1,15 +1,15 @@
 /* Panel button styles */
-.codex-icon {
+.kimi-icon {
     margin-right: 6px;
 }
 
-.codex-usage-label {
+.kimi-usage-label {
     font-size: 12px;
     font-weight: bold;
 }
 
 /* Panel progress bar */
-.codex-panel-progress-bg {
+.kimi-panel-progress-bg {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     height: 10px;
@@ -17,7 +17,7 @@
     margin-left: 4px;
 }
 
-.codex-panel-progress-bar {
+.kimi-panel-progress-bar {
     height: 10px;
     border-radius: 3px;
     transition: width 300ms ease-out;
@@ -25,30 +25,30 @@
 }
 
 /* Usage section styles */
-.codex-usage-section {
+.kimi-usage-section {
     padding: 4px 0;
     spacing: 6px;
     min-width: 260px;
 }
 
-.codex-section-header {
+.kimi-section-header {
     spacing: 12px;
 }
 
-.codex-section-title {
+.kimi-section-title {
     font-size: 13px;
     font-weight: 600;
     color: #e0e0e0;
 }
 
-.codex-percent-label {
+.kimi-percent-label {
     font-size: 13px;
     font-weight: bold;
     color: #ffffff;
 }
 
 /* Progress bar styles */
-.codex-progress-bg {
+.kimi-progress-bg {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     height: 8px;
@@ -56,54 +56,54 @@
     margin: 4px 0;
 }
 
-.codex-progress-bar {
+.kimi-progress-bar {
     height: 8px;
     border-radius: 4px;
     transition: width 300ms ease-out;
 }
 
-.codex-progress-bar.usage-low {
+.kimi-progress-bar.usage-low {
     background-color: #10a37f;
 }
 
-.codex-progress-bar.usage-medium {
+.kimi-progress-bar.usage-medium {
     background-color: #eab308;
 }
 
-.codex-progress-bar.usage-high {
+.kimi-progress-bar.usage-high {
     background-color: #f97316;
 }
 
-.codex-progress-bar.usage-critical {
+.kimi-progress-bar.usage-critical {
     background-color: #ef4444;
 }
 
 /* Reset label styles */
-.codex-reset-label {
+.kimi-reset-label {
     font-size: 11px;
     color: #a0a0a0;
 }
 
 /* Footer styles */
-.codex-footer-box {
+.kimi-footer-box {
     padding: 4px 0 2px;
     spacing: 10px;
 }
 
-.codex-refresh-button-content {
+.kimi-refresh-button-content {
     spacing: 6px;
 }
 
-.codex-refresh-button-icon {
+.kimi-refresh-button-icon {
     icon-size: 14px;
 }
 
-.codex-refresh-button-label {
+.kimi-refresh-button-label {
     font-size: 12px;
     font-weight: 600;
 }
 
-.codex-refresh-button {
+.kimi-refresh-button {
     padding: 6px 10px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -112,21 +112,21 @@
     transition: background-color 160ms ease-out, border-color 160ms ease-out;
 }
 
-.codex-refresh-button:hover {
+.kimi-refresh-button:hover {
     background-color: rgba(255, 255, 255, 0.12);
     border-color: rgba(255, 255, 255, 0.18);
 }
 
-.codex-refresh-button:active {
+.kimi-refresh-button:active {
     background-color: rgba(255, 255, 255, 0.18);
 }
 
-.codex-refresh-button.busy {
+.kimi-refresh-button.busy {
     background-color: rgba(16, 163, 127, 0.18);
     border-color: rgba(16, 163, 127, 0.34);
 }
 
-.codex-last-updated-label {
+.kimi-last-updated-label {
     font-size: 10px;
     font-style: italic;
     color: #808080;

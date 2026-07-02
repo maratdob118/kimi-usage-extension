@@ -4,19 +4,19 @@ import Gio from 'gi://Gio';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-export default class CodexUsagePreferences extends ExtensionPreferences {
+export default class KimiUsagePreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
 
         const page = new Adw.PreferencesPage({
-            title: 'Codex Usage Settings',
+            title: 'Kimi Usage Settings',
             icon_name: 'preferences-system-symbolic',
         });
         window.add(page);
 
         const generalGroup = new Adw.PreferencesGroup({
             title: 'General',
-            description: 'Configure the Codex Usage extension',
+            description: 'Configure the Kimi Usage extension',
         });
         page.add(generalGroup);
 
@@ -110,7 +110,7 @@ export default class CodexUsagePreferences extends ExtensionPreferences {
 
         const showIconRow = new Adw.SwitchRow({
             title: 'Show Icon',
-            subtitle: 'Display the Codex icon in the top bar',
+            subtitle: 'Display the Kimi icon in the top bar',
         });
         settings.bind(
             'show-icon',

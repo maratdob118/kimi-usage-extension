@@ -1,8 +1,8 @@
 {
-  "uuid": "kimi-usage@maratdob118.github.com",
   "name": "Kimi Usage",
-  "description": "Your Kimi Code plan usage, always visible in the GNOME top bar.",
-  "shell-version": ["42", "43", "44", "45", "46", "47", "48"],
-  "version-name": "1.0.0",
-  "url": "https://github.com/maratdob118/kimi-usage-extension"
+  "description": "Display Kimi Code usage from local session data in the top panel. Forked from codex-usage-extension. This extension is not affiliated, funded, or in any way associated with Moonshot AI.",
+  "uuid": "kimi-usage@msazanov.github.com",
+  "shell-version": ["46", "47", "48", "49", "50"],
+  "url": "https://github.com/maratdob118/kimi-usage-extension",
+  "settings-schema": "org.gnome.shell.extensions.kimi-usage"
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="codex-usage">
-  <schema id="org.gnome.shell.extensions.codex-usage" path="/org/gnome/shell/extensions/codex-usage/">
+<schemalist gettext-domain="kimi-usage">
+  <schema id="org.gnome.shell.extensions.kimi-usage" path="/org/gnome/shell/extensions/kimi-usage/">
     <key name="refresh-interval" type="i">
-      <default>300</default>
+      <default>60</default>
       <summary>Refresh interval</summary>
       <description>How often to refresh usage data in seconds</description>
     </key>
@@ -24,7 +24,7 @@
     <key name="show-icon" type="b">
       <default>true</default>
       <summary>Show icon</summary>
-      <description>Whether to show the Codex icon in the top bar</description>
+      <description>Whether to show the Kimi icon in the top bar</description>
     </key>
     <key name="proxy-url" type="s">
       <default>''</default>
